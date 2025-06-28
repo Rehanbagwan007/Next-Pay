@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Book" ALTER COLUMN "cashIn" SET DEFAULT 0,
+ALTER COLUMN "cashOut" SET DEFAULT 0;
