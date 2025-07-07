@@ -102,7 +102,7 @@ export default function DashboardPage() {
     const [userData, setUserData] = useState<User>(null); // Initialize with null
     const dispatch = useDispatch();
     const book = useSelector((state: RootState) => state.books.books.find((b) => b.id === bookId));
-    const {userRefresh} = useSelector((store:RootState)=> store.user)
+  const userRefresh = useSelector((store: RootState) => store.user?.userRefresh ?? false);
 
     // ************* CORRECT WAY TO CALL THE HOOK *************
     // Call useGetBook directly at the top level of the component.
