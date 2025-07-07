@@ -9,11 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { DollarSign, Menu } from "lucide-react";
+import { DollarSign, Menu , IndianRupee } from "lucide-react";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/store";
+
 
 interface MenuItem {
   label: string;
@@ -52,7 +53,7 @@ const Header: React.FC = () => {
       <div className="container flex h-16 items-center px-4">
         <div className="flex items-center space-x-2">
           <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
-            <DollarSign className="h-6 w-6 text-white" />
+            <IndianRupee className="h-6 w-6 text-white" />
           </div>
           <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             NextPay

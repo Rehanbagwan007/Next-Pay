@@ -23,6 +23,7 @@ import Link from "next/link"
 
 
 import { useGetUser } from "@/hooks/useGetUser"
+import { use, useEffect } from "react"
 
 
 
@@ -33,7 +34,13 @@ import { useGetUser } from "@/hooks/useGetUser"
 
 export default function NextPayLanding() {
 
-  useGetUser()
+
+ 
+    useGetUser()
+              
+
+
+ 
   
   
 

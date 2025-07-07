@@ -51,13 +51,16 @@ model Transaction {
   id        String   @id @default(uuid())
   title     String
   userId    String
-  amount    Float
-  book      Book     @relation(fields: [bookId], references: [id])
+  amount    Float 
   bookId    String
+
+  book      Book     @relation(fields: [bookId], references: [id])
+
   type      TransactionType 
   paymentMode String
   note String
   billurl String
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   

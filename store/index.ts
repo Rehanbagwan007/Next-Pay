@@ -1,13 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 
 import  userReducer from "./userSlice"
+
+import booksReducer from "./booksSlice"
+
+import transactionReducer from "./transactionSlice"
 
 
 
 export const  store =  configureStore({
-  reducer : {
-    user:userReducer
-  }
+  reducer : combineReducers({ 
+    user : userReducer,
+    books : booksReducer,
+    transaction:transactionReducer
+  }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 })
 
 
