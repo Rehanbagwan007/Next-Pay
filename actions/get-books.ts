@@ -12,10 +12,7 @@ export const getBooks = async (userId:string) => {
     try{
 
 
-        if(!userId){
-            throw new Error("User ID is Required")
-        }
-
+    
 
         const booksAll =  await prisma.book.findMany({
             where:{

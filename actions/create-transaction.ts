@@ -104,8 +104,8 @@ const createTransaction=  await prisma.transaction.create({
     paymentMode: result.data.mode,
     type: type,
     note: result.data.note,
-    billurl: result.data.bill, // Assuming you handle file uploads separately
-    bookId: bookId,
+    billurl: "", // Assuming you handle file uploads separately
+    book: { connect: { id: bookId } },
     userId: userID
   }
 })
