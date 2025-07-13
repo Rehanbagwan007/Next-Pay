@@ -27,13 +27,6 @@ export const useGetTransactions = (bookID:string)=>{
                   if(Transactions) dispatch(getAllTransaction(Transactions))
 
 
-               
-
-
-
-
-
-
 
             }catch(err){
                 console.log(err)

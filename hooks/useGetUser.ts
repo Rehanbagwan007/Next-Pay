@@ -35,7 +35,7 @@ export function useGetUser(){
     
     
     if(user){
-      router.push(`/dashboard/1`);
+      router.push(`/dashboard/`);
       (async () => {
         await createUser(
           user.id,

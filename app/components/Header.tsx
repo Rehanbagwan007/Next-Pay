@@ -14,6 +14,8 @@ import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/store";
+import { useTheme } from "next-themes";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 
 interface MenuItem {
@@ -30,8 +32,9 @@ const menuItems: MenuItem[] = [
 
 const Header: React.FC = () => {
 
-  const user = useSelector((state:RootState)=> state.user)
-  console.log(user)
+  const user = useSelector((state:RootState)=> state.user.user)
+  console.log(user,"this")
+  const { theme, setTheme } = useTheme();
 
 
   const NavItems: React.FC = () => (
@@ -66,6 +69,14 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex items-center space-x-3 ml-auto">
+          {/* Dark Mode Toggle 
+          <button
+            aria-label="Toggle Dark Mode"
+            className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <FaSun className="text-yellow-400" /> : <FaMoon className="text-gray-700" />}
+          </button>*/}
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
@@ -119,7 +130,7 @@ const Header: React.FC = () => {
           <SignedIn>
 
             <div className="hidden md:flex items-center space-x-2">
-              <span className="text-sm font-medium text-gray-700">{user?.name}</span>
+              <span className="text-sm font-medium text-gray-700">{user[0]?.name}</span>
               </div>
             
             <UserButton afterSignOutUrl="/" />

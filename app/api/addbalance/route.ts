@@ -6,6 +6,7 @@ import { NextRequest , NextResponse } from "next/server";
 export async function POST(request : NextRequest ) {
   try {
     const { userId, amount } = await request.json();
+ 
 
     if (!userId || !amount) {
       return new NextResponse(JSON.stringify({ success: false, message: "Invalid input" }), { status: 400 });

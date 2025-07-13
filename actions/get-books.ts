@@ -10,10 +10,6 @@ export const getBooks = async (userId:string) => {
 
 
     try{
-
-
-    
-
         const booksAll =  await prisma.book.findMany({
             where:{
                 userId
@@ -29,17 +25,10 @@ export const getBooks = async (userId:string) => {
 
 
 
-
-
-      
-
-
-
-
     }catch(err){
 
-
-        console.log(err)
+       console.log(err)
+        return(null)
 
 
 

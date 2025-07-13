@@ -54,8 +54,8 @@ const TransactionFormSheet: React.FC<TransactionFormSheetProps> = ({
   type,
   bookId,
 }) => {
-  const user = useSelector((state: RootState) => state.user);
-  const userID = user?.id;
+  const user = useSelector((state: RootState) => state.user.user);
+  const userID = user[0]?.id;
   const dispatch = useDispatch()
   const [state, formAction] = useActionState(
     async (_prevState: any, formData: FormData) => {

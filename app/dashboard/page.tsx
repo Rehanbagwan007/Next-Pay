@@ -4,18 +4,39 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store";
+import { Card } from "@/components/ui/card";
+import { BookSidebar } from "../components/BookSidebar";
+import DefaultDashboard from "../components/DefualtDashboard";
+import { usefetchUser } from "@/hooks/usefethUser";
 
-const DashboardPage = () => {
-  const router = useRouter();
-  const books = useSelector((state: RootState) => state.books.books);
 
-  useEffect(() => {
-    if (books && books.length > 0) {
-      router.replace(`/dashboard/${books[0].id}`);
-    }
-  }, [books, router]);
 
-  return <div>Loading...</div>;
-};
 
-export default DashboardPage; 
+
+export default function DashboardPage() {
+
+  
+  
+
+
+
+
+  return (
+    <div className="min-h-screen w-screen flex flex-row">
+
+      <div className="md:w-1/4 md:h-screen none">
+      <BookSidebar/>
+
+      </div>
+
+
+      <div className="w-3/4 h-screen">
+      <DefaultDashboard/>
+      </div>
+
+
+
+    </div>
+  
+  );
+} 

@@ -8,18 +8,17 @@ export const getTransactions = async (bookId: string) => {
 
     try{
 
-        if(!bookId) {
-            throw new Error("Book ID is required");
-        }
-
+       
         const Transactions = await prisma.transaction.findMany({
             where:
             {
-                bookId: bookId
+                book:{
+                    id:bookId
+                }
             },
         })
 
-
+      console.log(Transactions)
         return(Transactions)
 
 
