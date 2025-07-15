@@ -75,7 +75,7 @@ import { usefetchUser } from "@/hooks/usefethUser";
 export default function DashboardPage() {
    
      const params = useParams();
-    console.log("Book ID:", params.bookId);
+  
     const bookId = params.bookId as string; // Get bookId from params
 
 
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                                 />
                                 <DashboardCard
                                     title="Net Balance"
-                                    amount={`₹${user ? user[0]?.netBalance: 0}`}
+                                    amount={`₹${(book?.cashIn || 0) + (book?.cashOut || 0) || 0}`}
                                     icon={<Wallet className="text-blue-500 w-7 h-7" />}
                                     color="border-l-4 border-l-blue-500"
                                 />
@@ -209,8 +209,8 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Action Bar with Filters */}
-                    <Card className="p-4">
-                        <div className="flex flex-col  justify-items-end  gap-4">
+                    <Card className="p-4 w-68  items-center ">
+                        <div className="flex flex-col justify-items-end  gap-4">
                             {/* Action Row: Cash In, Cash Out, Net Balance */}
                             <div className="flex flex-wrap items-center just gap-2 mb-2">
                                 <Button
@@ -225,7 +225,7 @@ export default function DashboardPage() {
                                 >
                                     - Cash Out
                                 </Button>
-                                <Label className="ml-2">Net Balance:</Label>
+                              {/*  <Label className="ml-2">Net Balance:</Label>
                                 <Input
                                     type="number"
                                     placeholder="Update Net Balance"
@@ -241,7 +241,7 @@ export default function DashboardPage() {
                                     }}
                                 >
                                     {saveLoader ? "Saving..." : "Save"}
-                                </Button>
+                                </Button>*/ } 
                             </div>
                           
                             {/* Filters Row: In front of Recent Transactions */}

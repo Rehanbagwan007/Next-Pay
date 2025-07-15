@@ -83,7 +83,7 @@ type uploadState = {
 
   })
 
-   console.log(newBook)
+ 
 
   
 

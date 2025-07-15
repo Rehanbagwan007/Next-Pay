@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useActionState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import React, { useState } from "react";
+import { useRouter, useParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -16,71 +16,38 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Plus, BookOpen, Menu } from "lucide-react";
-import { handleCreateBook } from "@/actions/create-book"; // Adjust the import path as necessary
+import { handleCreateBook } from "@/actions/create-book";
 import { useGetBook } from "@/hooks/useGetBook";
-import { useDispatch, useSelector, UseSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { getAllbooks, getRefresh } from "@/store/booksSlice";
-import { useState } from "react";
-
-interface Book {
-  id: string;
-  title: string;
-  cashIn: number;
-  cashOut: number;
-  typeBook: "personal" | "business" | "family";
-}
+import { getRefresh } from "@/store/booksSlice";
 
 interface BookSidebarProps {
   className?: string;
 }
 
-const mockBooks: Book[] = [
-  { id: "1", title: "Personal Expenses", cashIn: 5500, cashOut: 0, typeBook: "personal" },
-  { id: "2", title: "Business 2023", cashIn: 12000, cashOut: 0, typeBook: "business" },
-  { id: "3", title: "Family Budget", cashIn: 3000, cashOut: 0, typeBook: "family" },
-  { id: "4", title: "Travel Fund", cashIn: 2500, cashOut: 0, typeBook: "personal" },
-  { id: "5", title: "Emergency Fund", cashIn: 8000, cashOut: 0, typeBook: "personal" },
-];
-
 export function BookSidebar({ className }: BookSidebarProps) {
   const router = useRouter();
   const params = useParams();
-  const dispatch = useDispatch()
+  const pathname = usePathname();
+  const dispatch = useDispatch();
   const bookId = params.bookId as string;
-
-  const [isNewBookOpen, setIsNewBookOpen] = React.useState(false);
+  const [isNewBookOpen, setIsNewBookOpen] = useState(false);
   const [search, setSearch] = useState("");
-  
-  const user = useSelector((state:RootState)=>  state.user.user)
-  
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.user.user);
   const books = useSelector((state: RootState) => state.books.books);
 
-  console.log("Books from redux" , books)
-
-
-
-  
-  const [state, formAction] = useActionState(
-    async (_prevState:any, formData: FormData) => {
+  const [state, formAction] = React.useActionState(
+    async (_prevState: any, formData: FormData) => {
       const result = await handleCreateBook(formData);
-      setIsNewBookOpen(!isNewBookOpen)
-         
-    
-      if(result){
-      
-          dispatch(getRefresh())
-        
-         
-       
+      setIsNewBookOpen(!isNewBookOpen);
+      if (result) {
+        dispatch(getRefresh());
       }
-      
-      
-
       if (!result?.errors) {
         setIsNewBookOpen(false);
-        dispatch(getRefresh())
-        // Refresh the books data
+        dispatch(getRefresh());
       }
       return result;
     },
@@ -89,70 +56,48 @@ export function BookSidebar({ className }: BookSidebarProps) {
 
   const handleBookClick = (id: string) => {
     router.push(`/dashboard/${id}`);
+    setSidebarOpen(false);
   };
 
-  const BooksList = () => (
-    <div className="flex h-full flex-col gap-2">
-      <div className="px-4 py-2 flex flex-col gap-2">
-        <h2 className="text-lg font-semibold tracking-tight">Your Books</h2>
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            placeholder="Search books..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="flex-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400"
-          />
-          <Dialog open={isNewBookOpen} onOpenChange={setIsNewBookOpen}>
-            <DialogTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create New Book</DialogTitle>
-              </DialogHeader>
-              <form className="space-y-4 py-4" action={formAction}>   
-                <div className="space-y-2">
-                  <label className="text-sm font-medium" htmlFor="book-name">Book Name</label>
-                  <Input
-                    id="book-name"
-                    placeholder="Enter book name"
-                    name="bookname"
-                    required
-                  />
-                  {state?.errors?.bookName && (
-                    <p className="text-sm text-red-500">{state.errors.bookName[0]}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium" htmlFor="book-type">Type</label>
-                  <select
-                    id="book-type"
-                    className="w-full p-2 rounded-md border"
-                    name="booktype"
-                    required
-                  >
-                    <option value="">Select a type</option>
-                    <option value="personal">Personal</option>
-                    <option value="business">Business</option>
-                    <option value="family">Family</option>
-                  </select>
-                  {state?.errors?.bookType && (
-                    <p className="text-sm text-red-500">{state.errors.bookType[0]}</p>
-                  )}
-                </div>
-                {state?.errors?.formError && (
-                  <p className="text-sm text-red-500">{state.errors.formError[0]}</p>
-                )}
-                <Button className="w-full" type="submit">Create Book</Button>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </div>
+  // Sidebar content
+  const sidebarContent = (
+    <div className={cn("flex flex-col h-full", className)}>
+      {/* Back to Dashboard button if on /dashboard/[id] */}
+      {pathname && /^\/dashboard\/.+/.test(pathname) && (
+        <button
+          className="flex items-center gap-2 p-2 mb-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium"
+          onClick={() => router.push("/dashboard")}
+        >
+          ← Back to Dashboard
+        </button>
+      )}
+      <div className="flex items-center justify-between p-4 border-b">
+        <span className="font-bold text-xl text-blue-700">Cash Books</span>
+        <Dialog open={isNewBookOpen} onOpenChange={setIsNewBookOpen}>
+          <DialogTrigger asChild>
+            <Button size="icon" variant="outline" className="ml-2">
+              <Plus className="h-5 w-5" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Book</DialogTitle>
+            </DialogHeader>
+            <form action={formAction} className="space-y-4">
+              <Input name="title" placeholder="Book Title" required />
+              <Button type="submit" className="w-full">Create</Button>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
-      <Separator />
+      <div className="p-2">
+        <Input
+          placeholder="Search books..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="mb-2"
+        />
+      </div>
       <ScrollArea className="flex-1">
         <div className="space-y-1 p-2">
           {books?.filter(book => book?.id && book.title && book.title.toLowerCase().includes(search.toLowerCase())).map((book) => (
@@ -183,41 +128,34 @@ export function BookSidebar({ className }: BookSidebarProps) {
         </div>
       </ScrollArea>
       <div className="mt-auto p-4">
-        <Dialog open={isNewBookOpen} onOpenChange={setIsNewBookOpen}>
-          <DialogTrigger asChild>
-            <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600">
-              <Plus className="mr-2 h-4 w-4" /> New Book
-            </Button>
-          </DialogTrigger>
-        </Dialog>
+        <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600" onClick={() => setIsNewBookOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" /> New Book
+        </Button>
       </div>
     </div>
   );
 
-  // Mobile view uses Sheet component
+  // Mobile sidebar with Sheet
   return (
     <>
-      {/* Mobile View */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-10 w-10 md:hidden"
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-80 p-0">
-          <div className="h-full bg-white dark:bg-sidebar shadow-xl rounded-r-2xl border-r border-gray-200 dark:border-gray-700">
-            <BooksList />
+      <div className="md:hidden flex items-center p-2 border-b bg-white dark:bg-card sticky top-0 z-20">
+        <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)}>
+          <Menu className="h-6 w-6" />
+        </Button>
+        <span className="ml-2 font-bold text-lg text-blue-700">Cash Books</span>
+      </div>
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <SheetContent side="left" className="w-[80vw] max-w-xs p-0 flex flex-col">
+          <div className="flex justify-end p-2">
+            <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
+              <span className="text-2xl">×</span>
+            </Button>
           </div>
+          {sidebarContent}
         </SheetContent>
       </Sheet>
-
-      {/* Desktop View */}
-      <div className={cn("hidden md:block h-full bg-white dark:bg-sidebar shadow-xl rounded-r-2xl border-r border-gray-200 dark:border-gray-700", className)}>
-        <BooksList />
+      <div className="hidden md:block h-full">
+        {sidebarContent}
       </div>
     </>
   );

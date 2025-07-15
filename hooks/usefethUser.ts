@@ -11,15 +11,6 @@ export const usefetchUser = ()=>{
     const dispatch =  useDispatch()
     const userRefresh = useSelector((store: RootState) => store.user?.userRefresh ?? false);
 
-
-
-
-
-
-
-
-
-
     useEffect(()=>{
 
         async function GETUSER() {
@@ -54,18 +45,5 @@ export const usefetchUser = ()=>{
 
 
     },[userRefresh,dispatch])
-
-
-
-
-
-
-    
-
-
-
-
-
-
 
 }

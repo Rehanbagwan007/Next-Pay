@@ -113,7 +113,7 @@ const createTransaction=  await prisma.transaction.create({
 
 
 
-    console.log("Transaction created:", createTransaction)
+  
 
     const updateBook = await prisma.book.update({
       where: { id: bookId },

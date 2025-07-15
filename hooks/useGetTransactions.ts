@@ -24,7 +24,7 @@ export const useGetTransactions = (bookID:string)=>{
             try{
              
                   const Transactions = await getTransactions(bookID)
-                  console.log("Transactions", Transactions)
+                
                   
                     
                

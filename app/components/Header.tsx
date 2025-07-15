@@ -69,14 +69,14 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex items-center space-x-3 ml-auto">
-          {/* Dark Mode Toggle 
+          {/* Dark Mode Toggle */}
           <button
             aria-label="Toggle Dark Mode"
-            className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
-            {theme === "dark" ? <FaSun className="text-yellow-400" /> : <FaMoon className="text-gray-700" />}
-          </button>*/}
+            {theme === "dark" ? <FaSun className="text-yellow-400 h-5 w-5" /> : <FaMoon className="text-gray-700 h-5 w-5" />}
+          </button>
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>

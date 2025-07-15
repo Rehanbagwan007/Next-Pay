@@ -27,7 +27,7 @@ export async function createUser(clerkId:string ,  email:string , phone_number :
     }
   })
   
-  console.log(existing)
+ 
 
  
   
@@ -46,7 +46,7 @@ export async function createUser(clerkId:string ,  email:string , phone_number :
           
         }
       });
-     console.log(createdUser)
+   
      
       
     }

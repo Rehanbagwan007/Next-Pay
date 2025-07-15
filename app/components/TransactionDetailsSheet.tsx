@@ -86,7 +86,7 @@ const TransactionDetailsSheet: React.FC<TransactionDetailsSheetProps> = ({
           
         })
 
-        console.log(resposne)
+       
         if(resposne.status === 200){
           dispatch(setTransactionRefresh())
           dispatch(getRefresh())

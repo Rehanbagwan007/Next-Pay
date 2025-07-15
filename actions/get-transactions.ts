@@ -18,7 +18,7 @@ export const getTransactions = async (bookId: string) => {
             },
         })
 
-      console.log(Transactions)
+     
         return(Transactions)
 
 

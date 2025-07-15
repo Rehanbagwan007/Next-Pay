@@ -1,42 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { RootState } from "@/store";
-import { Card } from "@/components/ui/card";
 import { BookSidebar } from "../components/BookSidebar";
 import DefaultDashboard from "../components/DefualtDashboard";
-import { usefetchUser } from "@/hooks/usefethUser";
-
-
-
-
 
 export default function DashboardPage() {
-
-  
-  
-
-
-
-
   return (
-    <div className="min-h-screen w-screen flex flex-row">
-
-      <div className="md:w-1/4 md:h-screen none">
-      <BookSidebar/>
-
-      </div>
-
-
-      <div className="w-3/4 h-screen">
-      <DefaultDashboard/>
-      </div>
-
-
-
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-gray-50 dark:bg-[#18181b]">
+      {/* Sidebar */}
+      <aside className="w-full md:w-1/4 md:h-screen border-r bg-white dark:bg-card shadow-md md:sticky top-0 z-10">
+        <BookSidebar />
+      </aside>
+      {/* Main Dashboard */}
+      <main className="flex-1 min-h-screen p-2 md:p-6 overflow-x-auto">
+        <DefaultDashboard />
+      </main>
     </div>
-  
   );
 } 

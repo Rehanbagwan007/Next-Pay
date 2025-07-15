@@ -84,7 +84,7 @@ export async function POST(request:NextRequest){
         })
 
 
-        console.log(updateBookAmount,UpdateUserNet,deleteTransaction)
+     
 
        return new NextResponse(JSON.stringify({ success: true, data: updateBookAmount }), { status: 200 })
    

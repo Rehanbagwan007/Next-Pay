@@ -21,7 +21,7 @@ export function useGetUser(){
 
     })
 
-  console.log("Book ID", bookID)
+
 
 
 
