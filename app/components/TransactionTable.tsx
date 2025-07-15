@@ -98,7 +98,7 @@ const TransactionTable: React.FC = () => {
                     onClick={() => handleTransactionClick(tx)}
                   >
                     <td className="py-2 px-2 max-w-[120px] truncate">{tx.title}</td>
-                    <td className="py-2 px-2">{tx.createdAt ? new Date(tx.createdAt).toLocaleDateString() : ""}</td>
+                    <td className="py-2 px-2">{tx.createdAt ? new Date(tx?.createdAt as string | Date ).toLocaleDateString() : ""}</td>
                     <td
                       className={`py-2 px-2 font-medium ${tx.type === "CASH_IN" ? "text-green-600" : "text-red-500"}`}
                     >
