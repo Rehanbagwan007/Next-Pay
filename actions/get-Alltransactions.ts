@@ -9,10 +9,7 @@ export const getTransactionsAll = async (userID:string)=>{
     try{
 
 
-        if(userID){
-            return "Must loggin"
-        }
-
+       
 
         const allTransactions = await prisma?.transaction.findMany({
             where:{

@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { getAllTransaction } from "@/store/transactionSlice";
 import { getTransactionsAll } from "@/actions/get-Alltransactions";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import dayjs from "dayjs"
+import { calculateProfit } from "@/actions/calcualte-profit";
 
 
 
@@ -23,6 +25,23 @@ interface NetBalanceCardProps {
   amount: number; // Pass your net balance value
 }
 
+
+ interface Transaction {
+  id?: string ;
+  title?: string;
+  userId?: string;
+  amount?:number;
+  bookId?:string;
+  type?: string;
+  paymentMode: string;
+  note?: string;
+  billurl?: string;
+  createdAt?: object;
+  
+}
+
+
+
       usefetchUser()
 
      
@@ -30,33 +49,54 @@ interface NetBalanceCardProps {
       
        useGetBook(user[0]?.id)
       const books = useSelector((state: RootState) => state.books.books);
-      let [transactions,setTransactions] = useState<number | undefined>(0)
+    
+      let [transactionsList, settransactionsList] = useState<Transaction[] | undefined>()
+
+       const netbalance = user[0]?.netBalance
      
 
-       const isProfit = false
+       const isProfit = true
 
 
 
       useEffect(()=>{
+
+       
 
         
 
         async function getTransactions(){
 
             const Transactions =  await getTransactionsAll(user[0]?.id)
-            setTransactions(Transactions?.length)
+              const gp =    await  calculateProfit(user[0]?.id)
+              console.log(gp)
+           
+
+            if(Transactions)  settransactionsList(Transactions)
+           
 
 
 
         }
 
-
         getTransactions()
 
-
-
-
       })
+
+
+
+      
+
+
+
+
+  
+
+
+
+
+      
+
 
 
 
@@ -75,15 +115,15 @@ interface NetBalanceCardProps {
 
                     </div>
                     <div className="mt-2 flex flex-row items-center space-x-2">
-                        <div className="w-[160px] border rounded-2xl border-blue-600 text-blue-600 p-1 flex -row items-center gap-2"><IoBookOutline color="blue" />
+                        <div className="w-[160px] border rounded-2xl shadow-md shadow-blue-500  text-blue-600 p-1 flex -row items-center gap-2"><IoBookOutline color="blue" />
                         Total Books {books.length}</div>
 
 
                         <div className="
-                        w-[200px] border border-blue-600 rounded-2xl text-blue-600 p-1 flex -row items-center gap-2
+                        w-[200px] border shadow-md shadow-blue-500 rounded-2xl text-blue-600 p-1 flex -row items-center gap-2
                         ">
                             <GrTransaction color="blue"/>
-                            Total Transactions {transactions}
+                            Total Transactions {transactionsList?.length}
 
                         </div>
 
@@ -94,7 +134,7 @@ interface NetBalanceCardProps {
                 </div>
 
                 <div className="net-balance w-[250px]">
-                     <div className="bg-white rounded-2xl shadow-md shadow-red-500 p-6 flex items-center justify-between w-full max-w-sm">
+                     <div className={`bg-white rounded-2xl shadow-md ${isProfit ? `shadow-green-500` : `shadow-red-500`} p-6 flex items-center justify-between w-full max-w-sm`}>
       <div>
         <p className="text-gray-500 text-sm">Net Balance</p>
         <h2 className="text-2xl font-semibold text-gray-800">
