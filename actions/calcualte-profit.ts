@@ -15,18 +15,10 @@ export const calculateProfit = async (userID:string)=>{
 
 
     const getLastMonthTransactions = await prisma.transaction.findMany({
-
-
-
-
-
-
-
-      
-     
         where:{
             userId:userID,
             createdAt:{
+                
                 gte:lastMonthStartdate,
                 lte:lastMonthEnddate
             },
@@ -35,9 +27,23 @@ export const calculateProfit = async (userID:string)=>{
 
     })
 
-    console.log(getLastMonthTransactions)
+    console.log(getLastMonthTransactions, "last month")
 
-    return(getLastMonthTransactions)  
+    const thisMonths =  await prisma?.transaction?.findMany({
+        where:{
+             userId:userID,
+             createdAt:{
+                gte:currentMonthStartdate,
+                lte:currentMonthEnddate
+             }
+        }
+    })
+
+
+    console.log(thisMonths , "this months")
+
+
+    return(thisMonths)
     
 }catch(err){
     console.log(err)

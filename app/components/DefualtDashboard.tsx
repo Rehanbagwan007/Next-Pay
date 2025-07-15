@@ -68,14 +68,14 @@ interface NetBalanceCardProps {
         async function getTransactions(){
 
             const Transactions =  await getTransactionsAll(user[0]?.id)
-              const gp =    await  calculateProfit(user[0]?.id)
-              console.log(gp)
-           
+             
 
             if(Transactions)  settransactionsList(Transactions)
+
+            const gp =    await  calculateProfit(user[0]?.id)
+             if(gp) console.log("this months" , gp)
            
-
-
+          
 
         }
 

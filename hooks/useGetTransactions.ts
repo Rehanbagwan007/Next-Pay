@@ -1,3 +1,4 @@
+import { calculateProfit } from "@/actions/calcualte-profit"
 import { getTransactions } from "@/actions/get-transactions"
 import { RootState } from "@/store"
 import { getAllTransaction } from "@/store/transactionSlice"
@@ -7,11 +8,14 @@ import { useDispatch, useSelector } from "react-redux"
 
 
 
+
 export const useGetTransactions = (bookID:string)=>{
 
     const dispatch = useDispatch()
 
     const { TransactionRefresh }  = useSelector((state:RootState)=> state.transaction)
+      const user = useSelector((state:RootState)=> state.user.user)
+   
 
 
     useEffect(()=>{
@@ -21,6 +25,7 @@ export const useGetTransactions = (bookID:string)=>{
              
                   const Transactions = await getTransactions(bookID)
                   console.log("Transactions", Transactions)
+                  
                     
                
                  
