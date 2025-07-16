@@ -14,8 +14,8 @@ COPY . .
 # 5. Generate Prisma client
 RUN npx prisma generate
 
-# 6. Expose default Next.js port
+# 6. Expose port (default for Next.js)
 EXPOSE 3000
 
-# 7. Build & Start app at runtime with memory limit raised
-CMD ["sh", "-c", "NODE_OPTIONS='--max-old-space-size=2048' npm run build && npm start"]
+# 7. Build & start the app at runtime (not during docker build)
+CMD ["sh", "-c", "npm run build && npm start"]
