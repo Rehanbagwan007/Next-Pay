@@ -14,11 +14,8 @@ COPY . .
 # 5. Generate Prisma client
 RUN npx prisma generate
 
-# 6. Build Next.js app
-RUN npm run build
-
-# 7. Expose port (default for Next.js)
+# 6. Expose port (default for Next.js)
 EXPOSE 3000
 
-# 8. Start the app
-CMD ["npm", "start"]
+# 7. Build & start the app at runtime (not during docker build)
+CMD ["sh", "-c", "npm run build && npm start"]
